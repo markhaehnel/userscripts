@@ -1,5 +1,7 @@
 # Userscripts
 
+[![CI](https://github.com/markhaehnel/userscripts/actions/workflows/ci.yml/badge.svg)](https://github.com/markhaehnel/userscripts/actions/workflows/ci.yml)
+
 Small, self-contained redirect userscripts for Greasemonkey and Tampermonkey.
 The `.user.js` files in this repository are the installable artifacts; there is
 no build step and no runtime dependency.
