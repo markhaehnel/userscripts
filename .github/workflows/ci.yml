@@ -16,15 +16,9 @@ concurrency:
 
 jobs:
   test:
-    name: Node.js ${{ matrix.node-version }}
+    name: Latest Node.js LTS
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version:
-          - 22.x
-          - 24.x
 
     steps:
       - name: Check out repository
@@ -35,7 +29,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: lts/*
           package-manager-cache: false
 
       - name: Check userscript syntax
