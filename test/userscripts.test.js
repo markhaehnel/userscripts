@@ -280,9 +280,10 @@ for (const script of scripts) {
 
     assert.equal(onlyMetadataValue(metadata, 'name'), script.name);
     assert.equal(onlyMetadataValue(metadata, 'namespace'), REPOSITORY_URL);
-    assert.equal(onlyMetadataValue(metadata, 'version'), '1.0.0');
+    assert.equal(onlyMetadataValue(metadata, 'version'), '1.0.1');
     assert.ok(onlyMetadataValue(metadata, 'description'), '@description is not empty');
     assert.equal(onlyMetadataValue(metadata, 'author'), 'Mark Hähnel');
+    assert.equal(onlyMetadataValue(metadata, 'license'), 'MIT');
     assert.equal(onlyMetadataValue(metadata, 'homepageURL'), REPOSITORY_URL);
     assert.equal(onlyMetadataValue(metadata, 'supportURL'), `${REPOSITORY_URL}/issues`);
     assert.equal(onlyMetadataValue(metadata, 'updateURL'), expectedRawUrl);

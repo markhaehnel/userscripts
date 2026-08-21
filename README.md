@@ -67,3 +67,7 @@ npm test
 The checks validate userscript metadata, JavaScript syntax, redirects, link
 rewriting, and URL safety cases. Edit the `.user.js` files directly; generated
 copies are intentionally not used.
+
+## License
+
+Released under the [MIT License](LICENSE).

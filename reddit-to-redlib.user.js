@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         Reddit to Redlib
 // @namespace    https://github.com/markhaehnel/userscripts
-// @version      1.0.0
+// @version      1.0.1
 // @description  Redirect Reddit pages and links to redlib-1.privadency.com.
 // @author       Mark Hähnel
+// @license      MIT
 // @homepageURL  https://github.com/markhaehnel/userscripts
 // @supportURL   https://github.com/markhaehnel/userscripts/issues
 // @updateURL    https://raw.githubusercontent.com/markhaehnel/userscripts/main/reddit-to-redlib.user.js

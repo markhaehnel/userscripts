@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         X to XCancel
 // @namespace    https://github.com/markhaehnel/userscripts
-// @version      1.0.0
+// @version      1.0.1
 // @description  Redirect X and Twitter pages and links to xcancel.com.
 // @author       Mark Hähnel
+// @license      MIT
 // @homepageURL  https://github.com/markhaehnel/userscripts
 // @supportURL   https://github.com/markhaehnel/userscripts/issues
 // @updateURL    https://raw.githubusercontent.com/markhaehnel/userscripts/main/x-to-xcancel.user.js
