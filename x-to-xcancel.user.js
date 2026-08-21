@@ -1,15 +1,22 @@
 // ==UserScript==
 // @name         X to XCancel
 // @namespace    https://github.com/markhaehnel/userscripts
-// @version      1.0.1
-// @description  Redirect X and Twitter pages and links to xcancel.com.
+// @version      1.1.0
+// @description  Redirect X and Twitter pages to xcancel.com.
 // @author       Mark Hähnel
 // @license      MIT
 // @homepageURL  https://github.com/markhaehnel/userscripts
 // @supportURL   https://github.com/markhaehnel/userscripts/issues
 // @updateURL    https://raw.githubusercontent.com/markhaehnel/userscripts/main/x-to-xcancel.user.js
 // @downloadURL  https://raw.githubusercontent.com/markhaehnel/userscripts/main/x-to-xcancel.user.js
-// @match        *://*/*
+// @match        *://x.com/*
+// @match        *://www.x.com/*
+// @match        *://m.x.com/*
+// @match        *://mobile.x.com/*
+// @match        *://twitter.com/*
+// @match        *://www.twitter.com/*
+// @match        *://m.twitter.com/*
+// @match        *://mobile.twitter.com/*
 // @run-at       document-start
 // @grant        none
 // @noframes
@@ -18,7 +25,7 @@
 /**
  * Install: Open this .user.js file in Greasemonkey or Tampermonkey.
  * Configuration: Change XCANCEL_BASE below to use another compatible instance.
- * Permissions: All-site access is required to rewrite X/Twitter links anywhere.
+ * Permissions: Runs only on the exact X and Twitter hosts listed above.
  * Supported inputs: The exact X and legacy Twitter hosts listed below.
  * Limitations: t.co links are not resolved because that requires a network
  * request, and the configured XCancel instance may be independently unavailable.
@@ -63,86 +70,9 @@
     return destination.href;
   }
 
-  // Redirect an X URL entered directly in the address bar.
+  // Redirect a directly visited X or Twitter URL.
   const redirectedLocation = xcancelUrl(window.location.href);
   if (redirectedLocation && redirectedLocation !== window.location.href) {
     window.location.replace(redirectedLocation);
-    return;
-  }
-
-  function isAnchor(node) {
-    return (
-      node?.nodeType === 1 &&
-      node.localName === 'a' &&
-      node.hasAttribute('href')
-    );
-  }
-
-  function rewriteAnchor(anchor) {
-    if (!isAnchor(anchor)) {
-      return;
-    }
-
-    const redirectedHref = xcancelUrl(
-      anchor.getAttribute('href'),
-      anchor.baseURI || document.baseURI,
-    );
-    if (redirectedHref) {
-      anchor.setAttribute('href', redirectedHref);
-    }
-  }
-
-  function rewriteTree(node) {
-    if (node?.nodeType !== 1) {
-      return;
-    }
-
-    if (isAnchor(node)) {
-      rewriteAnchor(node);
-    }
-
-    for (const anchor of node.querySelectorAll('a[href]')) {
-      rewriteAnchor(anchor);
-    }
-  }
-
-  // Rewrite existing and dynamically inserted links, including links in SPAs.
-  const observer = new MutationObserver((mutations) => {
-    for (const mutation of mutations) {
-      if (mutation.type === 'attributes') {
-        rewriteAnchor(mutation.target);
-        continue;
-      }
-
-      for (const node of mutation.addedNodes) {
-        rewriteTree(node);
-      }
-    }
-  });
-
-  observer.observe(document, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    attributeFilter: ['href'],
-  });
-
-  for (const anchor of document.querySelectorAll('a[href]')) {
-    rewriteAnchor(anchor);
-  }
-
-  // Catch links used before the mutation observer has processed them.
-  for (const eventName of ['pointerdown', 'click', 'auxclick', 'contextmenu', 'dragstart']) {
-    document.addEventListener(
-      eventName,
-      (event) => {
-        const path = event.composedPath?.() || [event.target];
-        const anchor = path.find(isAnchor);
-        if (anchor) {
-          rewriteAnchor(anchor);
-        }
-      },
-      true,
-    );
   }
 })();

@@ -13,8 +13,8 @@ Install [Greasemonkey](https://www.greasespot.net/) or
 
 | Script | What it does | Install |
 | --- | --- | --- |
-| Reddit to Redlib | Redirects Reddit pages, `redd.it` short links, and Reddit links found on other sites to `redlib-1.privadency.com`. | [Install](https://raw.githubusercontent.com/markhaehnel/userscripts/main/reddit-to-redlib.user.js) |
-| X to XCancel | Redirects X/Twitter pages and X/Twitter links found on other sites to `xcancel.com`. | [Install](https://raw.githubusercontent.com/markhaehnel/userscripts/main/x-to-xcancel.user.js) |
+| Reddit to Redlib | Redirects Reddit pages and `redd.it` short links to `redlib-1.privadency.com`. | [Install](https://raw.githubusercontent.com/markhaehnel/userscripts/main/reddit-to-redlib.user.js) |
+| X to XCancel | Redirects X and legacy Twitter pages to `xcancel.com`. | [Install](https://raw.githubusercontent.com/markhaehnel/userscripts/main/x-to-xcancel.user.js) |
 
 The manager should open an installation prompt when an install link is clicked.
 Review the source shown by the manager, then confirm the installation.
@@ -34,18 +34,16 @@ browser's extension **Developer mode**. See Tampermonkey's
 
 ## Permissions and behavior
 
-Both scripts request access to all HTTP and HTTPS pages with `@match *://*/*`.
-That access is necessary to rewrite matching links on arbitrary websites, not
-only while visiting Reddit or X directly. The scripts do not use privileged
-userscript APIs, make additional background requests, or store data. Redirecting
-or following a rewritten link sends its URL and normal request metadata to the
-configured destination as part of standard browser navigation.
+Each script requests access only to its explicitly supported source hosts:
+Reddit and `redd.it` frontends, or X and legacy Twitter frontends. They are not
+injected into unrelated websites and no longer rewrite outbound links found on
+those sites. The scripts do not use privileged userscript APIs, make additional
+background requests, or store data. A redirect sends its URL and normal request
+metadata to the configured destination as part of standard browser navigation.
 
 Each script also:
 
 - redirects a matching address-bar navigation as early as the manager permits;
-- rewrites links already present in the page and links added later by dynamic
-  applications;
 - preserves URL paths, query strings, and fragments; and
 - runs only in the top-level page, not in embedded frames.
 
@@ -64,9 +62,9 @@ Run the dependency-free checks with a current Node.js release:
 npm test
 ```
 
-The checks validate userscript metadata, JavaScript syntax, redirects, link
-rewriting, and URL safety cases. Edit the `.user.js` files directly; generated
-copies are intentionally not used.
+The checks validate userscript metadata, JavaScript syntax, redirects, scoped
+host access, and URL safety cases. Edit the `.user.js` files directly;
+generated copies are intentionally not used.
 
 ## License
 
